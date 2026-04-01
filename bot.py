@@ -42,4 +42,5 @@ async def chara(
 
     await interaction.response.send_message(embed=embed)
 
-bot.run("MTQ4ODg0MDM4ODg0MzE0NzI4Ng.GmPlGc.R1lLn-YxMm9huqU-LQvdt7AKXK7mhLHZQss7uA")
+import os
+bot.run(os.environ["TOKEN"])
