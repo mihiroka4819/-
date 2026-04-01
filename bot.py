@@ -49,7 +49,6 @@ async def chara(
     choices="カンマ区切りで選択肢を入力してください"
 )
 async def roulette(interaction: discord.Interaction, *, choices: str):
-    # 空白除去、全角カンマを半角に変換
     choices = choices.replace("，", ",")
     options = [c.strip() for c in choices.split(",") if c.strip()]
     
@@ -59,12 +58,10 @@ async def roulette(interaction: discord.Interaction, *, choices: str):
 
     selected = random.choice(options)
 
-    # 埋め込み作成
     embed = discord.Embed(
         title="🎲 ルーレット結果",
         color=discord.Color.green()
     )
-    # 選択肢一覧は最大500文字まで切り詰め
     embed.add_field(name="選択肢一覧", value=", ".join(options)[:500], inline=False)
     embed.add_field(name="選ばれたもの", value=f"**{selected}**", inline=False)
 
@@ -76,7 +73,7 @@ async def roulette(interaction: discord.Interaction, *, choices: str):
     target="成功判定の目標値（省略可、1d100で使う）"
 )
 async def roll(interaction: discord.Interaction, *, dice: str, target: int = None):
-    dice = dice.replace(" ", "")  # 空白削除
+    dice = dice.replace(" ", "") 
     try:
         count_str, sides_str = dice.lower().split("d")
         count = int(count_str)
@@ -104,7 +101,6 @@ async def roll(interaction: discord.Interaction, *, dice: str, target: int = Non
     embed.add_field(name="出目", value=", ".join(map(str, rolls)), inline=False)
     embed.add_field(name="合計", value=str(total), inline=False)
 
-    # 1d100用に成功判定
     if sides == 100 and count == 1 and target is not None:
         roll_value = rolls[0]
         if roll_value == 1:
