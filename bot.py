@@ -44,14 +44,11 @@ async def chara(
 
     await interaction.response.send_message(embed=embed)
 
-import random
-from discord import app_commands
-
 @bot.tree.command(name="roulette", description="選択肢からランダムで1つ選ぶ")
 @app_commands.describe(
     choices="カンマ区切りで選択肢を入力してください"
 )
-async def roulette(interaction: discord.Interaction, choices: str):
+async def roulette(interaction: discord.Interaction, , choices: str):  # ← を付けた
     options = [choice.strip() for choice in choices.split(",") if choice.strip()]
     if not options:
         await interaction.response.send_message("選択肢がありません！", ephemeral=True)
@@ -59,7 +56,6 @@ async def roulette(interaction: discord.Interaction, choices: str):
 
     selected = random.choice(options)
     await interaction.response.send_message(f"🎲 ルーレット結果: {selected}")
-
 
 import os
 bot.run(os.environ["TOKEN"])
