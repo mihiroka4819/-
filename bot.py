@@ -2,6 +2,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
+
 intents = discord.Intents.default()
 intents.presences = True
 intents.members = True
