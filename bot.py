@@ -135,5 +135,4 @@ async def roll(interaction: discord.Interaction, *, dice: str, target: int = Non
 
     await interaction.response.send_message(embed=embed)
 
-keep_alive()
 bot.run(os.environ["TOKEN"])
