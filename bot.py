@@ -48,14 +48,24 @@ async def chara(
 @app_commands.describe(
     choices="カンマ区切りで選択肢を入力してください"
 )
-async def roulette(interaction: discord.Interaction, , choices: str):  # ← を付けた
+async def roulette(interaction: discord.Interaction, *, choices: str):
     options = [choice.strip() for choice in choices.split(",") if choice.strip()]
     if not options:
         await interaction.response.send_message("選択肢がありません！", ephemeral=True)
         return
 
     selected = random.choice(options)
-    await interaction.response.send_message(f"🎲 ルーレット結果: {selected}")
+
+    # 埋め込みで選択肢一覧も表示
+    embed = discord.Embed(
+        title="🎲 ルーレット結果",
+        color=discord.Color.green()
+    )
+    embed.add_field(name="選択肢一覧", value="\n".join(options), inline=False)
+    embed.add_field(name="選ばれたもの", value=f"**{selected}**", inline=False)
+    await interaction.response.send_message(embed=embed)
+
+
 
 import os
 bot.run(os.environ["TOKEN"])
