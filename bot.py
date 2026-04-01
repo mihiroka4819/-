@@ -2,31 +2,18 @@ import os
 import discord
 from discord import app_commands
 from discord.ext import commands
-from flask import Flask
-from threading import Thread
 
 intents = discord.Intents.default()
 intents.presences = True
 intents.members = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-app = Flask('')
-
-@app.route('/')
-def home():
-    return "Bot is alive!"
-
-def run():
-    app.run(host='0.0.0.0', port=8080)
-
-def keep_alive():
-    t = Thread(target=run)
-    t.start()
-
 @bot.event
 async def on_ready():
     await bot.tree.sync()
     print(f"ログイン: {bot.user}")
+
+bot.run(os.environ["TOKEN"])
 
 @bot.tree.command(name="chara", description="キャラシを作る")
 @app_commands.describe(
@@ -134,5 +121,3 @@ async def roll(interaction: discord.Interaction, *, dice: str, target: int = Non
         embed.add_field(name=f"目標値: {target}", value=result_text, inline=False)
 
     await interaction.response.send_message(embed=embed)
-
-bot.run(os.environ["TOKEN"])
