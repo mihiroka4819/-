@@ -49,20 +49,25 @@ async def chara(
     choices="カンマ区切りで選択肢を入力してください"
 )
 async def roulette(interaction: discord.Interaction, *, choices: str):
-    options = [choice.strip() for choice in choices.split(",") if choice.strip()]
+    # 空白除去、全角カンマを半角に変換
+    choices = choices.replace("，", ",")
+    options = [c.strip() for c in choices.split(",") if c.strip()]
+    
     if not options:
         await interaction.response.send_message("選択肢がありません！", ephemeral=True)
         return
 
     selected = random.choice(options)
 
-    # 埋め込みで選択肢一覧も表示
+    # 埋め込み作成
     embed = discord.Embed(
         title="🎲 ルーレット結果",
         color=discord.Color.green()
     )
-    embed.add_field(name="選択肢一覧", value="\n".join(options), inline=False)
+    # 選択肢一覧は最大500文字まで切り詰め
+    embed.add_field(name="選択肢一覧", value=", ".join(options)[:500], inline=False)
     embed.add_field(name="選ばれたもの", value=f"**{selected}**", inline=False)
+
     await interaction.response.send_message(embed=embed)
 
 @bot.tree.command(name="roll", description="クトゥルフ風ダイスロール（1d100推奨）")
